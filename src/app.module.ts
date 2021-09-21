@@ -8,35 +8,35 @@ import { SendGridModule } from '@ntegral/nestjs-sendgrid';
 import { AuthModule } from './auth/auth.module';
 
 @Module({
-  imports: [
-    ConfigModule.forRoot(),
-    BullModule.forRootAsync({
-      imports: [ConfigModule],
-      inject: [ConfigService],
-      useFactory: async (configService: ConfigService) => ({
-        redis: {
-          host: configService.get('REDIS_URI') || 'redis',
-          port: 6379,
-        },
-      }),
-    }),
-    MongooseModule.forRootAsync({
-      imports: [ConfigModule],
-      inject: [ConfigService],
-      useFactory: async (configService: ConfigService) => ({
-        uri: configService.get('MONGO_URI') || 'mongodb://db/studyt',
-      }),
-    }),
-    SendGridModule.forRootAsync({
-      imports: [ConfigModule],
-      inject: [ConfigService],
-      useFactory: async (configService: ConfigService) => ({
-        apiKey: configService.get('SENDGRID_KEY'),
-      }),
-    }),
-    AuthModule,
-  ],
-  controllers: [AppController],
-  providers: [AppService],
+	imports: [
+		ConfigModule.forRoot(),
+		BullModule.forRootAsync({
+			imports: [ConfigModule],
+			inject: [ConfigService],
+			useFactory: async (configService: ConfigService) => ({
+				redis: {
+					host: configService.get('REDIS_URI') || 'redis',
+					port: 6379,
+				},
+			}),
+		}),
+		MongooseModule.forRootAsync({
+			imports: [ConfigModule],
+			inject: [ConfigService],
+			useFactory: async (configService: ConfigService) => ({
+				uri: configService.get('MONGO_URI') || 'mongodb://db/studyt',
+			}),
+		}),
+		SendGridModule.forRootAsync({
+			imports: [ConfigModule],
+			inject: [ConfigService],
+			useFactory: async (configService: ConfigService) => ({
+				apiKey: configService.get('SENDGRID_KEY'),
+			}),
+		}),
+		AuthModule,
+	],
+	controllers: [AppController],
+	providers: [AppService],
 })
 export class AppModule {}

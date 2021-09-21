@@ -25,7 +25,6 @@ services:
     container_name: studyt_api
     build:
       context: .
-      target: runner
       dockerfile: ./Dockerfile
     command: npm run start:debug
     ports:
