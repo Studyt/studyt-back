@@ -36,4 +36,4 @@ import { MailProducerService } from './mail/mail.producer.service';
     MailProducerService,
   ],
 })
-export class AuthModule {}
+export class AuthModule { }

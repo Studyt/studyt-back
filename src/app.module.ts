@@ -6,6 +6,7 @@ import { BullModule } from '@nestjs/bull';
 import { MongooseModule } from '@nestjs/mongoose';
 import { SendGridModule } from '@ntegral/nestjs-sendgrid';
 import { AuthModule } from './auth/auth.module';
+import { SubjectModule } from './subject/subject.module';
 
 @Module({
 	imports: [
@@ -35,8 +36,9 @@ import { AuthModule } from './auth/auth.module';
 			}),
 		}),
 		AuthModule,
+		SubjectModule
 	],
 	controllers: [AppController],
 	providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }
