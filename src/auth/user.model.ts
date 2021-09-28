@@ -1,5 +1,6 @@
 import { Schema, SchemaFactory, Prop } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, Schema as SchemaType } from 'mongoose';
+import { Subject } from '../subject/subject.model';
 
 @Schema()
 export class User {
@@ -17,6 +18,16 @@ export class User {
 
   @Prop({ default: false })
   confirmed: boolean;
+
+  @Prop({
+    type: [
+      {
+        type: SchemaType.Types.ObjectId,
+        ref: 'Subject',
+      },
+    ],
+  })
+  subjects: Subject[];
 }
 
 export type UserDocument = User & Document;

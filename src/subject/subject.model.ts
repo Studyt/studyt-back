@@ -3,7 +3,7 @@ import { Document } from 'mongoose';
 
 @Schema()
 export class Subject {
-	@Prop({ unique: true })
+	@Prop()
 	label: string;
 
 	@Prop()

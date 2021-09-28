@@ -13,13 +13,13 @@ export class MailConsumer {
   ) {}
 
   @Process('@studyt-sendMail')
-  mailJob(job: Job<unknown>) {
-  	this.logger.log(job.name, job.id);
-  	this.sendGridService.send({
-  		from: this.configService.get('STUDYT_MAIL'),
-  		subject: 'Studyt | Confirmação de Email',
-  		html: job.data.html,
-  		to: job.data.to
-  	});
+  mailJob(job: Job<{ html: string; to: string }>) {
+    this.logger.log(job.name, job.id, job.data);
+    this.sendGridService.send({
+      from: this.configService.get('STUDYT_MAIL'),
+      subject: 'Studyt | Confirmação de Email',
+      html: job.data.html,
+      to: job.data.to,
+    });
   }
 }
