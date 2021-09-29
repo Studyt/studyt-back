@@ -12,7 +12,7 @@ export class SubjectService {
     @InjectModel(Subject.name)
     private readonly subjectModel: Model<SubjectDocument>,
     @InjectModel(User.name) private readonly userModel: Model<UserDocument>,
-  ) {}
+  ) { }
 
   async create(subjectDTO: SubjectDTO, userID: string): Promise<SubjectDTO> {
     const user = await this.userModel.findById(userID).populate('subjects');
@@ -21,6 +21,7 @@ export class SubjectService {
       return el.name === subjectDTO.name;
     });
     if (sub) throw new ConflictException('Subject alredy exists');
+    this.logger.log(sub);
 
     const subject = await this.subjectModel.create(subjectDTO);
     user.subjects.push(subject);

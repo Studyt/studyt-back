@@ -17,6 +17,9 @@ export class Subject {
 
 	@Prop()
 	exams: number;
+
+	@Prop()
+	abscences: number;
 }
 
 export type SubjectDocument = Subject & Document;

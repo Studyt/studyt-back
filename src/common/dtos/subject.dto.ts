@@ -29,5 +29,10 @@ export class SubjectDTO {
 	@IsNotEmpty()
 	@ApiProperty()
 	exams: number;
+
+	@IsNumber()
+	@IsNotEmpty()
+	@ApiProperty()
+	abscences: number;
 }
 
