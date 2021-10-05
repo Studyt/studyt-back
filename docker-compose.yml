@@ -13,20 +13,11 @@ services:
       - 27017:27017
     command: mongod --quiet --logpath /dev/null
 
-  db_client:
-    container_name: studyt_db_client
-    image: mongoclient/mongoclient:latest
-    depends_on:
-      - db
-    ports:
-      - 3300:3000
-
   api:
     container_name: studyt_api
     build:
       context: .
       dockerfile: ./Dockerfile
-    command: npm run start:debug
     ports:
       - 1234:1234
     volumes:
