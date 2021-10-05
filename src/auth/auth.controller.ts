@@ -31,4 +31,10 @@ export class AuthController {
   async findAll() {
     return this.authService.findAllUsers();
   }
+
+  @UseGuards(JwtGuard)
+  @Get('/user/:id')
+  async findById(@Param('id') id: string) {
+    return this.authService.findById(id);
+  }
 }

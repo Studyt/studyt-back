@@ -23,7 +23,7 @@ export class AuthService {
     private readonly configService: ConfigService,
     private readonly jwtService: JwtService,
     private readonly mailProducerService: MailProducerService,
-  ) {}
+  ) { }
 
   async register(registerDTO: RegisterDTO) {
     if (await this.userModel.findOne({ email: registerDTO.email })) {
@@ -43,7 +43,7 @@ export class AuthService {
       mailTemplate({
         username: user.firstName,
         link: `${this.configService.get(
-          'STUDYT_FRONT_URL',
+          'http://localhost:1234',
         )}/confirmation/${token}`,
       }),
       user.email,
@@ -79,12 +79,17 @@ export class AuthService {
   }
 
   async confirmToken(token: string) {
-    const id = this.jwtService.verify(token)['id'];
+    const { id } = this.jwtService.verify(token);
     return await this.userModel.findByIdAndUpdate(id, { confirmed: true });
   }
 
   @UseGuards(JwtGuard)
   async findAllUsers() {
     return this.userModel.find().populate('subjects');
+  }
+
+  @UseGuards(JwtGuard)
+  async findById(id: string) {
+    return this.userModel.findById(id).populate('subjects');
   }
 }

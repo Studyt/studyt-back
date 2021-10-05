@@ -32,7 +32,7 @@ import { SubjectModule } from './subject/subject.module';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => ({
-        apiKey: configService.get('SENDGRID_KEY'),
+        apiKey: configService.get('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'),
       }),
     }),
     AuthModule,
@@ -41,4 +41,4 @@ import { SubjectModule } from './subject/subject.module';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }
