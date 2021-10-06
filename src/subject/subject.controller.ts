@@ -1,16 +1,17 @@
 import {
   Body,
   Controller,
+  Get,
   Logger,
   Post,
   Request,
   UseGuards,
-} from '@nestjs/common';
-import { SubjectDTO } from 'src/common/dtos/subject.dto';
-import { SubjectService } from './subject.service';
-import { JwtGuard } from '../auth/jwt/jwt.guard';
+} from "@nestjs/common";
+import { SubjectDTO } from "src/common/dtos/subject.dto";
+import { SubjectService } from "./subject.service";
+import { JwtGuard } from "../auth/jwt/jwt.guard";
 
-@Controller('subject')
+@Controller("subject")
 export class SubjectController {
   private readonly logger = new Logger(SubjectController.name);
   constructor(private subjectService: SubjectService) {}
@@ -19,5 +20,11 @@ export class SubjectController {
   @UseGuards(JwtGuard)
   async create(@Request() req, @Body() subjectDTO: SubjectDTO) {
     return this.subjectService.create(subjectDTO, req.user.sub);
+  }
+
+  @Get()
+  @UseGuards(JwtGuard)
+  async list(@Request() req) {
+    return this.subjectService.list(req.user.sub);
   }
 }

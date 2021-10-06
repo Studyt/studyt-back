@@ -1,39 +1,42 @@
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-import { User, UserDocument } from './user.model';
-import { compareSync, hashSync } from 'bcrypt';
+import { InjectModel } from "@nestjs/mongoose";
+import { Model } from "mongoose";
+import { User, UserDocument } from "./user.model";
+import { compareSync, hashSync } from "bcrypt";
 import {
   NotFoundException,
   UnauthorizedException,
   ConflictException,
   UseGuards,
-} from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
-import { RegisterDTO } from '../common/dtos/register.dto';
-import { JwtGuard } from './jwt/jwt.guard';
-import { InjectSendGrid, SendGridService } from '@ntegral/nestjs-sendgrid';
-import { ConfigService } from '@nestjs/config';
-import { compile as compileMailTemplate } from 'handlebars';
-import { readFileSync } from 'fs';
-import { MailProducerService } from './mail/mail.producer.service';
+  Logger,
+} from "@nestjs/common";
+import { JwtService } from "@nestjs/jwt";
+import { RegisterDTO } from "../common/dtos/register.dto";
+import { JwtGuard } from "./jwt/jwt.guard";
+import { InjectSendGrid, SendGridService } from "@ntegral/nestjs-sendgrid";
+import { ConfigService } from "@nestjs/config";
+import { compile as compileMailTemplate } from "handlebars";
+import { readFileSync } from "fs";
+import { MailProducerService } from "./mail/mail.producer.service";
 
 export class AuthService {
+  private readonly logger = new Logger(AuthService.name);
+
   constructor(
     @InjectModel(User.name) private readonly userModel: Model<UserDocument>,
     private readonly configService: ConfigService,
     private readonly jwtService: JwtService,
-    private readonly mailProducerService: MailProducerService,
-  ) { }
+    private readonly mailProducerService: MailProducerService
+  ) {}
 
   async register(registerDTO: RegisterDTO) {
     if (await this.userModel.findOne({ email: registerDTO.email })) {
-      throw new ConflictException('User alredy exists');
+      throw new ConflictException("User alredy exists");
     }
     registerDTO.password = hashSync(registerDTO.password, 10);
     const user = await this.userModel.create(registerDTO);
 
     const html = readFileSync(
-      `${__dirname}/mail/register.template.hbs`,
+      `${__dirname}/mail/register.template.hbs`
     ).toString();
     const mailTemplate = compileMailTemplate(html);
 
@@ -42,11 +45,9 @@ export class AuthService {
     this.mailProducerService.sendMail(
       mailTemplate({
         username: user.firstName,
-        link: `${this.configService.get(
-          'http://localhost:1234',
-        )}/confirmation/${token}`,
+        link: `${this.configService.get('STUDYT_FRONT_URL')}/confirmation/${token}`,
       }),
-      user.email,
+      user.email
     );
 
     user.password = undefined;
@@ -56,18 +57,18 @@ export class AuthService {
   async login(email: string, password: string) {
     const user = await this.userModel
       .findOne({ email })
-      .select('password email confirmed')
+      .select("password email confirmed")
       .exec();
     if (!user) {
-      throw new NotFoundException('User not found');
+      throw new NotFoundException("User not found");
     }
     if (!compareSync(password, user.password)) {
-      throw new UnauthorizedException('Wrong password');
+      throw new UnauthorizedException("Wrong password");
     }
     if (!user.confirmed) {
-      throw new UnauthorizedException('Verify your email');
+      throw new UnauthorizedException("Verify your email");
     }
-
+    this.logger.log(user);
     const token = this.jwtService.sign({
       sub: user.id,
       email: user.email,
@@ -85,11 +86,11 @@ export class AuthService {
 
   @UseGuards(JwtGuard)
   async findAllUsers() {
-    return this.userModel.find().populate('subjects');
+    return this.userModel.find().populate("subjects");
   }
 
   @UseGuards(JwtGuard)
   async findById(id: string) {
-    return this.userModel.findById(id).populate('subjects');
+    return this.userModel.findById(id).populate("subjects");
   }
 }

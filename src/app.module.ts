@@ -1,12 +1,12 @@
-import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { BullModule } from '@nestjs/bull';
-import { MongooseModule } from '@nestjs/mongoose';
-import { SendGridModule } from '@ntegral/nestjs-sendgrid';
-import { AuthModule } from './auth/auth.module';
-import { SubjectModule } from './subject/subject.module';
+import { Module } from "@nestjs/common";
+import { AppController } from "./app.controller";
+import { AppService } from "./app.service";
+import { ConfigModule, ConfigService } from "@nestjs/config";
+import { BullModule } from "@nestjs/bull";
+import { MongooseModule } from "@nestjs/mongoose";
+import { SendGridModule } from "@ntegral/nestjs-sendgrid";
+import { AuthModule } from "./auth/auth.module";
+import { SubjectModule } from "./subject/subject.module";
 
 @Module({
   imports: [
@@ -16,7 +16,7 @@ import { SubjectModule } from './subject/subject.module';
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => ({
         redis: {
-          host: configService.get('REDIS_URI') || 'redis',
+          host: configService.get("REDIS_URI") || "redis",
           port: 6379,
         },
       }),
@@ -25,14 +25,14 @@ import { SubjectModule } from './subject/subject.module';
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => ({
-        uri: configService.get('MONGO_URI') || 'mongodb://db/studyt',
+        uri: configService.get("MONGO_URI") || "mongodb://db/studyt",
       }),
     }),
     SendGridModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => ({
-        apiKey: configService.get('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'),
+        apiKey: configService.get("SENDGRID_KEY"),
       }),
     }),
     AuthModule,
@@ -41,4 +41,4 @@ import { SubjectModule } from './subject/subject.module';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule { }
+export class AppModule {}
