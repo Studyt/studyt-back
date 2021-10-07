@@ -12,7 +12,7 @@ export class SubjectService {
     @InjectModel(Subject.name)
     private readonly subjectModel: Model<SubjectDocument>,
     @InjectModel(User.name) private readonly userModel: Model<UserDocument>
-  ) {}
+  ) { }
 
   async create(subjectDTO: SubjectDTO, userID: string): Promise<SubjectDTO> {
     const user = await this.userModel.findById(userID).populate("subjects");
@@ -33,5 +33,18 @@ export class SubjectService {
   async list(userID: string) {
     const user = await this.userModel.findById(userID).populate("subjects");
     return user.subjects;
+  }
+
+  async getOne(userID: string, subjectID: string) {
+    const subject = await this.subjectModel.findById(subjectID);
+    if (!subject) throw new NotFoundException();
+    return subject;
+  }
+
+  async update(subjectID: string, subjectDTO: Partial<SubjectDTO>) {
+    const subject = await this.subjectModel.findByIdAndUpdate(subjectID, subjectDTO, {
+      new: true
+    });
+    return subject;
   }
 }

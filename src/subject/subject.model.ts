@@ -20,6 +20,9 @@ export class Subject {
 
 	@Prop()
 	abscences: number;
+
+	@Prop()
+	maxAbscences: number;
 }
 
 export type SubjectDocument = Subject & Document;

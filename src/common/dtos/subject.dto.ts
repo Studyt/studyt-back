@@ -1,4 +1,4 @@
-import { IsString, IsNotEmpty, MaxLength, MinLength, IsDateString, IsNumber } from 'class-validator';
+import { IsString, IsNotEmpty, MaxLength, MinLength, IsDateString, IsNumber, Min } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 
@@ -31,8 +31,14 @@ export class SubjectDTO {
 	exams: number;
 
 	@IsNumber()
+	@ApiProperty()
+	@Min(0)
+	abscences: number;
+
+	@IsNumber()
 	@IsNotEmpty()
 	@ApiProperty()
-	abscences: number;
+	@Min(0)
+	maxAbscences: number;
 }
 
