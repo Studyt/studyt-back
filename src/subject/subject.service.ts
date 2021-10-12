@@ -36,7 +36,7 @@ export class SubjectService {
   }
 
   async getOne(userID: string, subjectID: string) {
-    const subject = await this.subjectModel.findById(subjectID);
+    const subject = await this.subjectModel.findById(subjectID).populate('tasks');
     if (!subject) throw new NotFoundException();
     return subject;
   }

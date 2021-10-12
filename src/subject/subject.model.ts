@@ -1,5 +1,6 @@
 import { Schema, SchemaFactory, Prop } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, Schema as SchemaType } from 'mongoose';
+import { Task } from 'src/task/task.model';
 
 @Schema()
 export class Subject {
@@ -23,6 +24,16 @@ export class Subject {
 
 	@Prop()
 	maxAbscences: number;
+
+	@Prop({
+		type: [
+			{
+				type: SchemaType.Types.ObjectId,
+				ref: 'Task',
+			},
+		],
+	})
+	tasks: Task[];
 }
 
 export type SubjectDocument = Subject & Document;

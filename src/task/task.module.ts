@@ -4,14 +4,14 @@ import { ConfigService } from '@nestjs/config';
 import { TaskController } from './task.controller';
 import { Task, TaskSchema } from './task.model';
 import { TaskService } from './task.service';
-import { User, UserSchema } from 'src/auth/user.model';
+import { Subject, SubjectSchema } from 'src/subject/subject.model';
 
 @Module({
 	controllers: [TaskController],
 	imports: [
 		MongooseModule.forFeature([
 			{ name: Task.name, schema: TaskSchema },
-			{ name: User.name, schema: UserSchema },
+			{ name: Subject.name, schema: SubjectSchema },
 		]),
 	],
 	providers: [TaskService, ConfigService],

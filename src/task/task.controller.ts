@@ -18,4 +18,9 @@ export class TaskController {
 	private readonly logger = new Logger(TaskController.name);
 	constructor(private taskService: TaskService) { }
 
+	@Post()
+	@UseGuards(JwtGuard)
+	async create(@Request() req, @Body() taskDTO: TaskDTO) {
+		return this.taskService.create(taskDTO, taskDTO.subject);
+	}
 }

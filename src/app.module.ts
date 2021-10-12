@@ -8,6 +8,7 @@ import { SendGridModule } from "@ntegral/nestjs-sendgrid";
 import { AuthModule } from "./auth/auth.module";
 import { SubjectModule } from "./subject/subject.module";
 import { FeedbackModule } from "./feedback/feedback.module";
+import { TaskModule } from "./task/task.module";
 
 @Module({
   imports: [
@@ -38,7 +39,8 @@ import { FeedbackModule } from "./feedback/feedback.module";
     }),
     AuthModule,
     SubjectModule,
-    FeedbackModule
+    FeedbackModule,
+    TaskModule
   ],
   controllers: [AppController],
   providers: [AppService],
