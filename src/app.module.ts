@@ -9,6 +9,7 @@ import { AuthModule } from "./auth/auth.module";
 import { SubjectModule } from "./subject/subject.module";
 import { FeedbackModule } from "./feedback/feedback.module";
 import { TaskModule } from "./task/task.module";
+import { GradeModule } from "./grade/grade.module";
 
 @Module({
   imports: [
@@ -40,7 +41,8 @@ import { TaskModule } from "./task/task.module";
     AuthModule,
     SubjectModule,
     FeedbackModule,
-    TaskModule
+    TaskModule,
+    GradeModule
   ],
   controllers: [AppController],
   providers: [AppService],

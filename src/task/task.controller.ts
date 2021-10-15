@@ -1,13 +1,10 @@
 import {
 	Body,
 	Controller,
-	Get,
-	Patch,
 	Logger,
 	Post,
 	Request,
 	UseGuards,
-	Param
 } from "@nestjs/common";
 import { TaskDTO } from "src/common/dtos/task.dto";
 import { TaskService } from "./task.service";
