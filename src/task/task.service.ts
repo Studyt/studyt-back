@@ -24,4 +24,8 @@ export class TaskService {
 		return subject.tasks;
 	}
 
+	async update(taskID: string, taskDTO: Partial<TaskDTO>) {
+		return await this.taskModel.findByIdAndUpdate(taskID, taskDTO, { new: true });
+	}
+
 }

@@ -1,7 +1,10 @@
 import { Schema, SchemaFactory, Prop } from '@nestjs/mongoose';
 import { Document, Schema as SchemaType } from 'mongoose';
-import { Grade } from 'src/grade/grade.model';
 import { Task } from 'src/task/task.model';
+class Grade {
+	grade: number;
+	weight: number;
+}
 
 @Schema()
 export class Subject {
@@ -36,15 +39,13 @@ export class Subject {
 	})
 	tasks: Task[];
 
-	@Prop({
-		type: [
-			{
-				type: SchemaType.Types.ObjectId,
-				ref: 'Grade',
-			},
-		],
-	})
-	grades: Grade[];
+	@Prop(
+		{ type: [{ weight: { type: Number }, grade: { type: Number } }] }
+	)
+	grades: {
+		grade: Number,
+		weight: Number
+	}[]
 }
 
 export type SubjectDocument = Subject & Document;

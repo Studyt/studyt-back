@@ -1,5 +1,6 @@
 import { Schema, SchemaFactory, Prop } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
+import { TaskStatus } from 'src/common/enums/taskstatus.enum';
 
 @Schema()
 export class Task {
@@ -9,7 +10,10 @@ export class Task {
 	@Prop()
 	dueDate: Date;
 
-	@Prop()
+	@Prop({
+		enum: TaskStatus,
+		default: TaskStatus.TODO
+	})
 	status: string;
 
 	@Prop()

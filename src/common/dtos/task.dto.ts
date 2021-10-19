@@ -1,6 +1,6 @@
 import { IsString, IsNotEmpty, MaxLength, MinLength, IsDateString, IsNumber, Min } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
-
+import { TaskStatus } from '../enums/taskstatus.enum';
 
 export class TaskDTO {
 	@IsString()
@@ -13,8 +13,7 @@ export class TaskDTO {
 	@ApiProperty()
 	dueDate: Date;
 
-	@IsString()
-	@IsNotEmpty()
+	// @IsString()
 	@ApiProperty()
 	status: string;
 

@@ -2,6 +2,8 @@ import {
 	Body,
 	Controller,
 	Logger,
+	Param,
+	Patch,
 	Post,
 	Request,
 	UseGuards,
@@ -19,5 +21,11 @@ export class TaskController {
 	@UseGuards(JwtGuard)
 	async create(@Request() req, @Body() taskDTO: TaskDTO) {
 		return this.taskService.create(taskDTO, taskDTO.subject);
+	}
+
+	@Patch("/:taskID")
+	@UseGuards(JwtGuard)
+	async update(@Param('taskID') taskID: string, @Body() taskDTO: Partial<TaskDTO>) {
+		return this.taskService.update(taskID, taskDTO);
 	}
 }

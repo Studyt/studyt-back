@@ -41,4 +41,10 @@ export class SubjectController {
   async update(@Param('subjectID') subjectID: string, @Body() subjectDTO: Partial<SubjectDTO>) {
     return this.subjectService.update(subjectID, subjectDTO);
   }
+
+  @Patch('/:subjectID/grade')
+  @UseGuards(JwtGuard)
+  async addGrade(@Param('subjectID') subjectID: string, @Body("weight") weight: number, @Body("grade") grade?: number) {
+    return this.subjectService.addGrade(subjectID, weight, grade);
+  }
 }
