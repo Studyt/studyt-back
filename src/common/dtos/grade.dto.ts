@@ -9,6 +9,7 @@ export class GradeDTO {
 	grade: number;
 
 	@IsNumber()
+	@IsNotEmpty()
 	@ApiProperty()
 	weight: number;
 

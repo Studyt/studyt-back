@@ -48,7 +48,7 @@ export class SubjectService {
     return subject;
   }
 
-  async addGrade(subjectID: string, weight: number, grade?: number) {
+  async addGrade(subjectID: string, weight: number, grade: number) {
     this.logger.log({ weight, grade })
     return this.subjectModel.findByIdAndUpdate(subjectID, { $push: { grades: { weight, grade } } }, { new: true });
   }
