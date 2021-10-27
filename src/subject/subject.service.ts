@@ -31,7 +31,10 @@ export class SubjectService {
   }
 
   async list(userID: string) {
-    const user = await this.userModel.findById(userID).populate("subjects");
+    const user = await this.userModel.findById(userID).populate({
+      path: 'subjects',
+      populate: 'tasks'
+    });
     return user.subjects;
   }
 
@@ -48,8 +51,8 @@ export class SubjectService {
     return subject;
   }
 
-  async addGrade(subjectID: string, weight: number, grade: number) {
+  async addGrade(subjectID: string, weight: number, grade: number, date: Date) {
     this.logger.log({ weight, grade })
-    return this.subjectModel.findByIdAndUpdate(subjectID, { $push: { grades: { weight, grade } } }, { new: true });
+    return this.subjectModel.findByIdAndUpdate(subjectID, { $push: { grades: { weight, grade, date } } }, { new: true });
   }
 }

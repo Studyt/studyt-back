@@ -40,11 +40,12 @@ export class Subject {
 	tasks: Task[];
 
 	@Prop(
-		{ type: [{ weight: { type: Number }, grade: { type: Number } }] }
+		{ type: [{ weight: { type: Number }, grade: { type: Number }, date: { type: Date} }] }
 	)
 	grades: {
 		grade: Number,
-		weight: Number
+		weight: Number,
+		date: Date
 	}[]
 }
 

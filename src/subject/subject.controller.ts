@@ -44,7 +44,7 @@ export class SubjectController {
 
   @Patch('/:subjectID/grade')
   @UseGuards(JwtGuard)
-  async addGrade(@Param('subjectID') subjectID: string, @Body("weight") weight: number, @Body("grade") grade?: number) {
-    return this.subjectService.addGrade(subjectID, weight, grade);
+  async addGrade(@Param('subjectID') subjectID: string, @Body("weight") weight: number, @Body("grade") grade?: number, @Body("date") date?: Date) {
+    return this.subjectService.addGrade(subjectID, weight, grade, date);
   }
 }

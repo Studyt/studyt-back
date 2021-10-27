@@ -9,6 +9,9 @@ export class Task {
 
 	@Prop()
 	dueDate: Date;
+	
+	@Prop({default: Date.now()})
+	createdAt: Date;
 
 	@Prop({
 		enum: TaskStatus,
